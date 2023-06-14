@@ -1,0 +1,40 @@
+query MyQuery($skip: Int = 10, $take: Int = 10, $accountId: String! @fromClaim(name: USERID), $usageId: String @internal) {
+  data: freetalk_findManyPayment(
+    skip: $skip
+    take: $take
+    where: {accountId: {equals: $accountId}}
+  ) {
+    accountId
+    createdAt
+    id
+    orderAmount
+    orderDate
+    orderNumber
+    paymentDate
+    paymentResp
+    paymentStatus
+    updatedAt
+    payType
+    usage
+    usageId @export(as: "usageId")
+    membershipPresent: _join @transform(get: "freetalk_findFirstMembership.presentDuration") {
+      freetalk_findFirstMembership(where: {id: {equals: $usageId}}) {
+        presentDuration
+        name
+      }
+    }
+    durationValue: _join @transform(get: "freetalk_findFirstDurationPackage.value") {
+      freetalk_findFirstDurationPackage(where: {id: {equals: $usageId}}) {
+        value
+        name
+      }
+    }
+    sn
+    expireAt
+  }
+  total: freetalk_aggregatePayment(where: {accountId: {equals: $accountId}}) @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+} 

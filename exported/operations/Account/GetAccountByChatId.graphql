@@ -1,0 +1,13 @@
+query GetAccountByChatId($chatId: String!) {
+  data: freetalk_findFirstAccount(
+    where: {User: {is: {Chat: {some: {id: {equals: $chatId}}}}}}
+  ) {
+    id
+    leftDuration
+    costDuration
+    updatedAt
+    Membership {
+      presentDuration
+    }
+  }
+}

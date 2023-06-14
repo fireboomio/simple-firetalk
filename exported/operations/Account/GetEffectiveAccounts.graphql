@@ -1,0 +1,17 @@
+query GetEffectiveAccounts($startTime: DateTime!, $endTime: DateTime!) {
+  data: freetalk_findManyAccount(
+    where: {membershipEndTime: {gte: $startTime, lte: $endTime}}
+  ) {
+    deletedAt
+    createdAt
+    costDuration
+    id
+    leftDuration
+    membershipEndTime
+    membershipId
+    updatedAt
+    userId: User @transform(get: "id") {
+      id
+    }
+  }
+} 

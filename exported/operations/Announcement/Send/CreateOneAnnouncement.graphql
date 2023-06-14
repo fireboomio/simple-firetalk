@@ -1,0 +1,7 @@
+mutation CreateOneAnnouncement($abstract: String = "", $annoType: freetalk_AnnoType!, $content: String!, $startTime: DateTime @injectCurrentDateTime(format: ISO8601), $isSend: Boolean = false, $title: String!, $userId: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $annoScope: freetalk_AnnoScope = ALL) {
+  data: freetalk_createOneAnnouncement(
+    data: {title: $title, abstract: $abstract, content: $content, startTime: $startTime, isSend: $isSend, User: {connect: {id: $userId}}, updatedAt: $updatedAt, annoType: $annoType, annoScope: $annoScope}
+  ) {
+    id
+  }
+}

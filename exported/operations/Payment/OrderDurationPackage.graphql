@@ -1,0 +1,8 @@
+mutation UnifiedOrder($accountId: String! @fromClaim(name: USERID), $durationPackageId: String!, $payType: String!) {
+  data: payment_unifiedOrder(
+    accountId: $accountId
+    product: "DurationPackage"
+    productId: $durationPackageId
+    payType: $payType
+  )
+} 

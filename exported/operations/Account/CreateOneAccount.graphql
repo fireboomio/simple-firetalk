@@ -1,0 +1,7 @@
+mutation CreateOneAccount($updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $userId: String!) {
+  data: freetalk_createOneAccount(
+    data: {costDuration: 0, leftDuration: 0, updatedAt: $updatedAt, User: {connect: {id: $userId}}}
+  ) {
+    id
+  }
+}

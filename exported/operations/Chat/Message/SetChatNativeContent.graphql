@@ -1,0 +1,8 @@
+mutation SetChatNativeContent($id: String!, $nativeContent: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601)) {
+  data: freetalk_updateOneChatMessage(
+    data: {nativeContent: {set: $nativeContent}, updatedAt: {set: $updatedAt}}
+    where: {id: $id}
+  ) {
+    id
+  }
+} 

@@ -1,0 +1,16 @@
+query GetManyDurationPackage($packageId: String @internal) {
+  data: freetalk_findManyDurationPackage {
+    id @export(as: "packageId")
+    name
+    price
+    value
+    discount: _join @transform(get: "freetalk_findFirstDiscount") {
+      freetalk_findFirstDiscount(where: {usageId: {equals: $packageId}, usage: {equals: DurationPackage}}) {
+        description
+        name
+        value
+        expireAt
+      }
+    }
+  }
+}

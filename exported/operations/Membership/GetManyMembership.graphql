@@ -1,0 +1,21 @@
+query GetManyMembership($membershipId: String @internal) {
+  data: freetalk_findManyMembership(where: {price: {not: {equals: 0}}}) {
+    purchaseLimit
+    lifespan
+    description
+    createdAt
+    id @export(as: "membershipId")
+    name
+    presentDuration
+    price
+    imageUrl
+    discount: _join @transform(get: "freetalk_findFirstDiscount") {
+      freetalk_findFirstDiscount(where: {usageId: {equals: $membershipId}, usage: {equals: Membership}}) {
+        description
+        name
+        value
+        expireAt
+      }
+    }
+  }
+} 

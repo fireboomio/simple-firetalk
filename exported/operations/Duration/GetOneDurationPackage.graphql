@@ -1,0 +1,15 @@
+query GetOneDurationPackage($id: String!) {
+  data: freetalk_findFirstDurationPackage(where: {id: {equals: $id}}) {
+    price
+    value
+    name
+    discount: _join @transform(get: "freetalk_findFirstDiscount") {
+      freetalk_findFirstDiscount(where: {usageId: {equals: $id}, usage: {equals: DurationPackage}}) {
+        description
+        name
+        value
+        expireAt
+      }
+    }
+  }
+}

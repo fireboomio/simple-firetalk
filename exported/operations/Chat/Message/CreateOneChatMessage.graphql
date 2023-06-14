@@ -1,0 +1,14 @@
+mutation CreateOneChatMessage($content: String, $nativeContent: String, $audioUrl: String, $audioDuration: Float, $createWith: freetalk_ChatCreateWith! = Content, $costDuration: Float = 0, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $role: String!, $chatId: String!, $outTimeDuration: Float, $isSuper: Boolean) {
+  data: freetalk_createOneChatMessage(
+    data: {content: $content, audioUrl: $audioUrl, costDuration: $costDuration, updatedAt: $updatedAt, Chat: {connect: {id: $chatId}}, role: $role, nativeContent: $nativeContent, createWith: $createWith, audioDuration: $audioDuration, outTimeDuration: $outTimeDuration, isSuper: $isSuper}
+  ) {
+    costDuration
+    userId: Chat @transform(get: "User.id") {
+      User {
+        id
+      }
+    }
+    id
+    outTimeDuration
+  }
+}

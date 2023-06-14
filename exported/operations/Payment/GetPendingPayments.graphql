@@ -1,0 +1,28 @@
+query MyQuery($usageId: String @internal) {
+  data: freetalk_findManyPayment(where: {paymentStatus: {equals: PENDING}}) {
+    accountId
+    createdAt
+    id
+    usage
+    usageId @export(as: "usageId")
+    orderNumber
+    orderDate
+    orderAmount
+    paymentDate
+    paymentStatus
+    updatedAt
+    payType
+    membershipPresent: _join @transform(get: "freetalk_findFirstMembership.presentDuration") {
+      freetalk_findFirstMembership(where: {id: {equals: $usageId}}) {
+        presentDuration
+      }
+    }
+    durationValue: _join @transform(get: "freetalk_findFirstDurationPackage.value") {
+      freetalk_findFirstDurationPackage(where: {id: {equals: $usageId}}) {
+        value
+      }
+    }
+    sn
+    expireAt
+  }
+}

@@ -1,0 +1,14 @@
+query GetSceneList($userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findManyScene(
+    where: {OR: [{userId: {equals: $userId}, SceneCategory: {is: {usage: {equals: User}}}}, {SceneCategory: {is: {usage: {in: [Random, System]}}}}]}
+    orderBy: {SceneCategory: {sort: asc}}
+  ) {
+    id
+    name
+    usage: SceneCategory @transform(get: "usage") {
+      usage
+    }
+    prefixIcon
+    suffixIcon
+  }
+}

@@ -1,0 +1,5 @@
+mutation CancelOnePayment($id: String!) {
+  freetalk_updateOnePayment(data: {paymentStatus: CANCELLED}, where: {id: $id}) {
+    id
+  }
+}

@@ -1,0 +1,7 @@
+mutation DeleteUserScene($ids: [String]!, $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_deleteManyScene(
+    where: {id: {in: $ids}, userId: {equals: $userId}}
+  ) {
+    count
+  }
+}

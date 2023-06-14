@@ -1,0 +1,5 @@
+mutation DeleteOneUser($id: String!) @internalOperation {
+  data: freetalk_deleteOneUser(where: {id: $id}) {
+    id
+  }
+}

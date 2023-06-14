@@ -1,0 +1,8 @@
+mutation MyQuery($difficulty: String!, $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_updateOneUser(
+    data: {difficulty: {set: $difficulty}}
+    where: {id: $userId}
+  ) {
+    id
+  }
+}

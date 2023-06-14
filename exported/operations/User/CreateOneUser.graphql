@@ -1,0 +1,17 @@
+mutation CreateOne($id: String!, $avatar: String!, $phone: String!, $nickname: String!, $speedOfSpeech: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $difficulty: String!, $learningPurpose: String, $profession: String, $learningLanguageId: String, $age: String) @internalOperation {
+  data: freetalk_createOneUser(
+    data: {id: $id, avatar: $avatar, phone: $phone, nickname: $nickname, age: $age, difficulty: $difficulty, speedOfSpeech: $speedOfSpeech, updatedAt: $updatedAt, enabled: true, learningPurpose: $learningPurpose, profession: $profession, LearningLanguage: {connect: {id: $learningLanguageId}}}
+  ) {
+    id
+    phone
+    nickname
+    nativeLanguage
+    profession
+    learningPurpose
+    difficulty
+    speedOfSpeech
+    enabled
+    updatedAt
+    deletedAt
+  }
+}

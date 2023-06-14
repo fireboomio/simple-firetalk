@@ -1,0 +1,21 @@
+query MyQuery($id: String!,  $categoryId:String! @internal) {
+  data: freetalk_findFirstScene(where: {id: {equals: $id}}) {
+    createdAt
+    id
+    name
+    updatedAt
+    sceneCategory: SceneCategory {
+      name
+      usage
+    }
+    categoryId @export(as: "categoryId")
+    prompts: _join @transform(get: "freetalk_findManyPromptText") {
+      freetalk_findManyPromptText(
+        where: {usage: {equals: SceneCategory}, usageId: {equals: $categoryId}}
+      ) {
+        content
+        name
+      }
+    }
+  }
+}

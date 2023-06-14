@@ -1,0 +1,25 @@
+query GetOneAnnouncementRecv($id: String!) {
+  data: freetalk_findFirstAnnouncementRecv(where: {id: {equals: $id}}) {
+    id
+    createdAt
+    updatedAt
+    deletedAt
+    isRead
+    userId
+    annoId
+    Announcement {
+      abstract
+      annoType
+      content
+      createdAt
+      deletedAt
+      id
+      isSend
+      startTime
+      title
+      updatedAt
+      userId
+      annoScope
+    }
+  }
+}

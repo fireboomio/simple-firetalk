@@ -1,0 +1,10 @@
+query GetPaymentConf {
+  data: freetalk_findFirstPaymentConf {
+    createdAt
+    expireMin
+    cronIntervalSec
+    id
+    startQueryMin
+    updatedAt
+  }
+} 

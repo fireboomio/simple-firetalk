@@ -1,0 +1,5 @@
+mutation DeleteOneAnnouncementRecv($id: String!) {
+  data: freetalk_deleteOneAnnouncementRecv(where: {id: $id}) {
+    id
+  }
+}

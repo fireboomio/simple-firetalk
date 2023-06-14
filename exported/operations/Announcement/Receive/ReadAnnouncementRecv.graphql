@@ -1,0 +1,8 @@
+mutation ReadAnnouncementRecv($id: String!) {
+  data: freetalk_updateOneAnnouncementRecv(
+    data: {isRead: {set: true}}
+    where: {id: $id}
+  ) {
+    id
+  }
+} 

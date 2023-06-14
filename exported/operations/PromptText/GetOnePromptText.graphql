@@ -1,0 +1,9 @@
+query GetOnePromptText($usageId: String!, $usage: freetalk_PromptTextUsage = Helper) {
+  data: freetalk_findFirstPromptText(
+    where: {usage: {equals: $usage}, usageId: {equals: $usageId}}
+  ) {
+    content
+    id
+    name
+  }
+}

@@ -1,0 +1,10 @@
+query GetOneChat($id: String!) {
+  data: freetalk_findFirstChat(where: {id: {equals: $id}}) {
+    currentSceneId
+    id
+    teacherId
+    updatedAt
+    userId
+    createdAt
+  }
+}

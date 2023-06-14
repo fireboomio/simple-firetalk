@@ -1,0 +1,8 @@
+mutation CreateOneChat($updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $sceneId: String!, $teacherId: String!, $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_createOneChat(
+    data: {updatedAt: $updatedAt, Scene: {connect: {id: $sceneId}}, Teacher: {connect: {id: $teacherId}}, User: {connect: {id: $userId}}}
+  ) {
+    id
+    userId
+  }
+}

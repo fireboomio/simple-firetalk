@@ -1,0 +1,11 @@
+query MyQuery($code: String!) {
+  data: freetalk_findManyDictItem(
+    where: {Dict: {is: {code: {equals: $code}}}, enabled: {equals: true}}
+    orderBy: [{sort: desc}, {updatedAt: desc}]
+  ) {
+    id
+    title
+    value
+    description
+  }
+}

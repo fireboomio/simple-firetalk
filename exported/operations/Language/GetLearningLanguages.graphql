@@ -1,0 +1,7 @@
+query GetManyLearningLanguage {
+  data: freetalk_findManyLearningLanguage(orderBy: {sort: desc}) {
+    id
+    name
+    azure
+  }
+}

@@ -1,0 +1,10 @@
+query GptQuery($chatCtxLimit: Int = 10, $chatId: String, $usage: String!, $message: String, $helper: String, $helperArgs: String) {
+  data: gpt_chat_query(
+    chatCtxLimit: $chatCtxLimit
+    chatId: $chatId
+    message: $message
+    helper: $helper
+    usage: $usage
+    helperArgs: $helperArgs
+  )
+}

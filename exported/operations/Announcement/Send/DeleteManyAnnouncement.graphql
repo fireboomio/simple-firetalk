@@ -1,0 +1,5 @@
+mutation DeleteManyAnnouncement($ids: [String]!) {
+  data: freetalk_deleteManyAnnouncement(where: {id: {in: $ids}}) {
+    count
+  }
+}

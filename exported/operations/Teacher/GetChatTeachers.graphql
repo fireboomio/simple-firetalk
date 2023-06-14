@@ -1,0 +1,12 @@
+query GetManyTeacher {
+  data: freetalk_findManyTeacher(where: {displayUsage: {equals: Spoken}}) {
+    id @export(as: "teacherId")
+    name
+    gender
+    age
+    avatar
+    feature
+    createdAt
+    updatedAt
+  }
+}

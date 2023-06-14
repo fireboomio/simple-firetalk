@@ -1,0 +1,21 @@
+query GetOneTeacher($id: String!) {
+  data: freetalk_findFirstTeacher(where: {id: {equals: $id}}) {
+    id
+    name
+    gender
+    age
+    avatar
+    feature
+    createdAt
+    updatedAt
+    requiredSceneCategoryIds
+    prompts: _join @transform(get: "freetalk_findManyPromptText") {
+      freetalk_findManyPromptText(
+        where: {usage: {equals: Teacher}, usageId: {equals: $id}}
+      ) {
+        content
+        name
+      }
+    }
+  }
+} 

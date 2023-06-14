@@ -1,0 +1,367 @@
+
+generator db {
+  provider = "go run github.com/prisma/prisma-client-go"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:password@127.0.0.1:5432/simple_freetalk"
+}
+
+model Account {
+  costDuration      Float
+  leftDuration      Float
+  membershipEndTime DateTime?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime
+  deletedAt         DateTime?
+  id                String             @id
+  membershipId      String?            @db.Uuid
+  User              User               @relation(fields: [id], references: [id], onDelete: Cascade)
+  Membership        Membership?        @relation(fields: [membershipId], references: [id], onDelete: SetDefault)
+  CDKEY             CDKEY[]
+  DurationHisotory  DurationHisotory[]
+  Payment           Payment[]
+}
+
+model Announcement {
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime
+  deletedAt        DateTime?
+  title            String
+  abstract         String
+  content          String
+  annoType         AnnoType
+  startTime        DateTime?
+  isSend           Boolean            @default(false)
+  userId           String
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  annoScope        AnnoScope
+  User             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  AnnouncementRecv AnnouncementRecv[]
+}
+
+model AnnouncementConf {
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+  title     String
+  abstract  String
+  content   String
+  annoType  AnnoType
+  annoScope AnnoScope
+  startTime DateTime?
+  isSend    Boolean   @default(true)
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String
+}
+
+model AnnouncementRecv {
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime
+  deletedAt    DateTime?
+  isRead       Boolean      @default(false)
+  userId       String
+  annoId       String       @db.Uuid
+  Announcement Announcement @relation(fields: [annoId], references: [id], onDelete: Cascade)
+  User         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CDKEY {
+  createdAt       DateTime     @default(now())
+  redeemAccountId String?
+  redeemAt        DateTime?
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  redeemed        Boolean      @default(false)
+  code            String       @unique
+  usage           PaymentUsage
+  usageId         String       @db.Uuid
+  Account         Account?     @relation(fields: [redeemAccountId], references: [id], onDelete: Cascade)
+}
+
+model Chat {
+  userId         String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  teacherId      String        @db.Uuid
+  currentSceneId String        @db.Uuid
+  Scene          Scene         @relation(fields: [currentSceneId], references: [id], onDelete: Cascade)
+  Teacher        Teacher       @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  User           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ChatMessage    ChatMessage[]
+}
+
+model ChatMessage {
+  content         String?
+  audioUrl        String?
+  costDuration    Float
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role            String?
+  nativeContent   String?
+  chatId          String         @db.Uuid
+  audioDuration   Float?
+  createWith      ChatCreateWith @default(Content)
+  errorRecovery   String?
+  isSuper         Boolean        @default(false)
+  outTimeDuration Float          @default(0)
+  Chat            Chat           @relation(fields: [chatId], references: [id], onDelete: Cascade)
+}
+
+model Dict {
+  code        String
+  name        String
+  description String?
+  type        DictValueType @default(String)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  DictItem    DictItem[]
+}
+
+model DictItem {
+  title       String
+  value       String
+  description String?
+  sort        Int?
+  enabled     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  isDefault   Boolean
+  dictId      String   @db.Uuid
+  Dict        Dict     @relation(fields: [dictId], references: [id], onDelete: Cascade)
+}
+
+model Discount {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  value       Float
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime
+  expireAt    DateTime?
+  usage       PaymentUsage
+  usageId     String       @db.Uuid
+
+  @@unique([usage, usageId])
+}
+
+model DurationHisotory {
+  createdAt DateTime              @default(now())
+  updatedAt DateTime
+  accountId String
+  id        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  value     Float
+  usage     DurationHisotoryUsage
+  usageId   String                @db.Uuid
+  Account   Account               @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model DurationPackage {
+  name      String   @unique
+  price     Float
+  value     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}
+
+model LearningLanguage {
+  name         String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sort         Int      @default(0)
+  abbreviation String?
+  azure        String?
+  User         User[]
+}
+
+model Membership {
+  name            String    @unique
+  price           Float
+  lifespan        Float
+  presentDuration Float
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  description     String?
+  purchaseLimit   Int?
+  imageUrl        String?
+  Account         Account[]
+}
+
+model Payment {
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime
+  accountId     String
+  orderDate     DateTime      @default(now())
+  orderNumber   String        @unique
+  paymentDate   DateTime?
+  paymentStatus PaymentStatus @default(PENDING)
+  orderAmount   Float
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  expireAt      DateTime?
+  payType       String?
+  paymentResp   String?
+  sn            String?
+  usage         PaymentUsage
+  usageId       String        @db.Uuid
+  Account       Account       @relation(fields: [accountId], references: [id], onDelete: Cascade)
+}
+
+model PaymentConf {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+  startQueryMin   Int
+  expireMin       Int
+  cronIntervalSec Int
+}
+
+model PromptText {
+  content   String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime
+  deletedAt DateTime?
+  id        String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String?
+  usage     PromptTextUsage @default(Helper)
+  usageId   String
+
+  @@unique([usage, usageId])
+}
+
+model Scene {
+  name          String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime
+  id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId    String        @db.Uuid
+  prefixIcon    String?
+  suffixIcon    String?
+  userId        String?
+  SceneCategory SceneCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Chat          Chat[]
+}
+
+model SceneCategory {
+  name  String
+  id    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sort  Int?
+  usage SceneCategoryUsage? @default(System)
+  Scene Scene[]
+}
+
+model Teacher {
+  name                     String
+  gender                   String
+  age                      Int
+  avatar                   String
+  feature                  String
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime
+  id                       String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  displayUsage             TeacherDisplayUsage
+  requiredSceneCategoryIds String[]
+  Chat                     Chat[]
+}
+
+model User {
+  id                     String                 @id
+  avatar                 String
+  phone                  String                 @unique
+  nickname               String
+  nativeLanguage         String                 @default("中文")
+  profession             String?
+  learningPurpose        String?
+  age                    String?
+  difficulty             String
+  speedOfSpeech          String
+  enabled                Boolean                @default(true)
+  createdAt              DateTime               @default(now())
+  updatedAt              DateTime
+  deletedAt              DateTime?
+  clientDisplayLanguages ClientDisplayLanguages @default(Bilingual)
+  learningLanguageId     String?                @db.Uuid
+  LearningLanguage       LearningLanguage?      @relation(fields: [learningLanguageId], references: [id], onDelete: SetDefault)
+  Account                Account?
+  Announcement           Announcement[]
+  AnnouncementRecv       AnnouncementRecv[]
+  Chat                   Chat[]
+}
+
+enum AnnoScope {
+  ALL
+  USER
+}
+
+enum AnnoType {
+  MemberReminder
+  UserRegistration
+  System
+  Membership
+  DurationPackage
+}
+
+enum ChatCreateWith {
+  Audio
+  Content
+  NativeContent
+  NativeAudio
+}
+
+enum ClientDisplayLanguages {
+  None
+  Bilingual
+  Foreign
+  Blind
+}
+
+enum DictValueType {
+  String
+  Int
+  Float
+  Boolean
+}
+
+enum DurationHisotoryUsage {
+  ChatMessage
+  Payment
+  CDKEY
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum PaymentUsage {
+  Membership
+  DurationPackage
+}
+
+enum PromptTextUsage {
+  Teacher
+  SceneCategory
+  Helper
+  WritePolish
+}
+
+enum SceneCategoryUsage {
+  Random
+  System
+  User
+  Required
+}
+
+enum TeacherDisplayUsage {
+  Robot
+  Spoken
+  Random
+}

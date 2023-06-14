@@ -1,0 +1,28 @@
+query MyQuery($userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstUser(
+    where: {id: {equals: $userId}, enabled: {equals: true}}
+  ) {
+    id
+    age
+    avatar
+    clientDisplayLanguages
+    difficulty
+    learningPurpose
+    nickname
+    phone
+    profession
+    speedOfSpeech
+    nativeLanguage
+    learningLanguage: LearningLanguage {
+      name
+      id
+    }
+    account: Account {
+      leftDuration
+      membershipEndTime
+      membershipName: Membership @transform(get: "name") {
+        name
+      }
+    }
+  }
+}

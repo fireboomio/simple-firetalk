@@ -1,0 +1,8 @@
+mutation SetChatAudioUrl($id: String!, $audioUrl: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $audioDuration: Float!) {
+  data: freetalk_updateOneChatMessage(
+    data: {audioUrl: {set: $audioUrl}, updatedAt: {set: $updatedAt}, audioDuration: {set: $audioDuration}}
+    where: {id: $id}
+  ) {
+    id
+  }
+}

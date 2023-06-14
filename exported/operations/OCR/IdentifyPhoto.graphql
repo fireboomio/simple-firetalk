@@ -1,0 +1,3 @@
+query MyQuery($url: String!) {
+  data: OCR_identify(url: $url)
+}

@@ -1,0 +1,20 @@
+query GetRandomChatConfig($userId: String! @fromClaim(name: USERID)) {
+  sceneId: freetalk_findFirstScene(
+    where: {SceneCategory: {is: {usage: {equals: Random}}}}
+  ) @transform(get: "id") {
+    id
+  }
+  teacherId: freetalk_findFirstTeacher(where: {displayUsage: {equals: Random}}) @transform(get: "id") {
+    id
+  }
+  data: freetalk_findFirstChat(
+    where: {Scene: {is: {SceneCategory: {is: {usage: {equals: Random}}}}}, Teacher: {is: {displayUsage: {equals: Random}}}, User: {is: {id: {equals: $userId}}}}
+  ) {
+    sceneId: currentSceneId
+    teacherId
+    updatedAt
+    userId
+    createdAt
+    id
+  }
+}

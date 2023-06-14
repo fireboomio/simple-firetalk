@@ -1,0 +1,34 @@
+query GetAnnouncementRecvList($take: Int = 10, $skip: Int = 0, $startTime: DateTime! @injectCurrentDateTime(format: ISO8601), $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findManyAnnouncementRecv(
+    skip: $skip
+    take: $take
+    orderBy: {createdAt: desc}
+    where: {Announcement: {is: {startTime: {lte: $startTime}, isSend: {equals: true}}}, User: {is: {id: {equals: $userId}}}}
+  ) {
+    id
+    createdAt
+    updatedAt
+    deletedAt
+    isRead
+    userId
+    annoId
+    Announcement {
+      abstract
+      annoType
+      createdAt
+      id
+      title
+      startTime
+      annoScope
+      content
+      nickname: User @transform(get: "nickname") {
+        nickname
+      }
+    }
+  }
+  total: freetalk_aggregateAnnouncementRecv @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+}

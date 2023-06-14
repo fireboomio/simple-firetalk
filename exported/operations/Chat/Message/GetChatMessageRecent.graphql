@@ -1,0 +1,28 @@
+query GetChatMessageRecent($userId: String! @fromClaim(name: USERID), $take: Int = 10, $teacherId: String!, $sceneId: String, $skip: Int = 0) {
+  data: freetalk_findManyChatMessage(
+    orderBy: {createdAt: desc}
+    take: $take
+    where: {Chat: {is: {userId: {equals: $userId}, teacherId: {equals: $teacherId}, currentSceneId: {equals: $sceneId}}}}
+    skip: $skip
+  ) {
+    audioUrl
+    chatId
+    content
+    costDuration
+    errorRecovery
+    createdAt
+    id
+    role
+    updatedAt
+    nativeContent
+    createWith
+    audioDuration
+  }
+  total: freetalk_aggregateChatMessage(
+    where: {Chat: {is: {userId: {equals: $userId}, teacherId: {equals: $teacherId}, currentSceneId: {equals: $sceneId}}}}
+  ) @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+}

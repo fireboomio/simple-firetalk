@@ -1,0 +1,36 @@
+[
+	{
+		"authSupplier": "openid",
+		"config": {
+			"AuthorizationEndpoint": "https://freetalk.authing.cn/oidc/auth",
+			"clientId": {
+				"key": "",
+				"kind": "0",
+				"val": "644512df9e360e3f7a40e3e4"
+			},
+			"clientSecret": {
+				"key": "",
+				"kind": "0",
+				"val": ""
+			},
+			"discoveryURL": "",
+			"id": "app",
+			"issuer": "https://freetalk.authing.cn/oidc",
+			"jwks": 0,
+			"jwksJSON": "",
+			"jwksURL": "https://freetalk.authing.cn/oidc/.well-known/jwks.json",
+			"tokenEndpoint": "https://freetalk.authing.cn/oidc/token",
+			"userInfoCacheTtlSeconds": 0,
+			"userInfoEndpoint": "https://freetalk.authing.cn/oidc/me"
+		},
+		"createTime": "2023-04-23 11:16:12Z",
+		"deleteTime": "",
+		"id": 1664118168616960,
+		"name": "app",
+		"point": "http://localhost:9991/auth/cookie/authorize/app?redirect_uri=",
+		"switchState": [
+			"tokenBased"
+		],
+		"updateTime": ""
+	}
+]

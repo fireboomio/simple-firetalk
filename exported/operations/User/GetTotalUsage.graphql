@@ -1,0 +1,5 @@
+query MyQuery($equals: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstAccount(where: {id: {equals: $equals}}) {
+    costDuration
+  }
+}

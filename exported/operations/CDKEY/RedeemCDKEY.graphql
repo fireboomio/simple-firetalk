@@ -1,0 +1,24 @@
+mutation RedeemCDKEY($code: String!, $redeemAt: DateTime @injectCurrentDateTime(format: ISO8601), $accountId: String! @fromClaim(name: USERID), $usageId: String @internal) {
+  data: freetalk_updateOneCDKEY(
+    data: {redeemAt: {set: $redeemAt}, Account: {connect: {id: $accountId}}, redeemed: {set: true}}
+    where: {code: $code}
+  ) {
+    id
+    usage
+    usageId @export(as: "usageId")
+    membership: _join @transform(get: "freetalk_findFirstMembership") {
+      freetalk_findFirstMembership(where: {id: {equals: $usageId}}) {
+        id
+        name
+        presentDuration
+      }
+    }
+    durationPackage: _join @transform(get: "freetalk_findFirstDurationPackage") {
+      freetalk_findFirstDurationPackage(where: {id: {equals: $usageId}}) {
+        id
+        name
+        value
+      }
+    }
+  }
+}

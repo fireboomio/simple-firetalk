@@ -1,0 +1,7 @@
+mutation CreateCostDurationHistory($accountId: String! @fromClaim(name: USERID), $value: Float!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $messageId: String!) {
+  data: freetalk_createOneDurationHisotory(
+    data: {Account: {connect: {id: $accountId}}, updatedAt: $updatedAt, value: $value, usage: ChatMessage, usageId: $messageId}
+  ) {
+    id
+  }
+} 

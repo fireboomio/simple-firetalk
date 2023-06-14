@@ -1,0 +1,8 @@
+mutation MyQuery($id: String! @fromClaim(name: USERID), $clientDisplayLanguages: freetalk_ClientDisplayLanguages = None) {
+  data: freetalk_updateOneUser(
+    data: {clientDisplayLanguages: $clientDisplayLanguages}
+    where: {id: $id}
+  ) {
+    id
+  }
+}

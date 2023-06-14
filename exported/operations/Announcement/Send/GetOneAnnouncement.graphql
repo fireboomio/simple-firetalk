@@ -1,0 +1,16 @@
+query GetOneAnnouncement($id: String!) {
+  data: freetalk_findFirstAnnouncement(where: {id: {equals: $id}}) {
+    createdAt
+    updatedAt
+    deletedAt
+    title
+    abstract
+    content
+    annoType
+    startTime
+    isSend
+    userId
+    id
+    annoScope
+  }
+}

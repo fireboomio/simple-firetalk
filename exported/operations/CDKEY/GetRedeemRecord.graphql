@@ -1,0 +1,35 @@
+query GetCDKEYList($take: Int = 10, $skip: Int = 0, $usageId: String @internal) {
+  data: freetalk_findManyCDKEY(
+    orderBy: {createdAt: desc}
+    take: $take
+    skip: $skip
+    where: {redeemed: {equals: true}}
+  ) {
+    createdAt
+    id
+    code
+    redeemAt
+    usage
+    usageId @export(as: "usageId")
+    membership: _join @transform(get: "freetalk_findFirstMembership.name") {
+      freetalk_findFirstMembership(where: {id: {equals: $usageId}}) {
+        name
+      }
+    }
+    durationPackage: _join @transform(get: "freetalk_findFirstDurationPackage.name") {
+      freetalk_findFirstDurationPackage(where: {id: {equals: $usageId}}) {
+        name
+      }
+    }
+    account: Account @transform(get: "User.nickname") {
+      User {
+        nickname
+      }
+    }
+  }
+  total: freetalk_aggregateCDKEY(where: {redeemed: {equals: true}}) @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+}

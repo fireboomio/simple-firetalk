@@ -1,0 +1,5 @@
+query GetAccountLast($userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstAccount(where: {User: {is: {id: {equals: $userId}}}}) {
+    updatedAt
+  }
+}

@@ -1,0 +1,23 @@
+query GetOneAccount($userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstAccount(
+    where: {User: {is: {id: {equals: $userId}, enabled: {equals: true}}}}
+  ) {
+    id
+    costDuration
+    leftDuration
+    membershipEndTime
+    createdAt
+    updatedAt
+    deletedAt
+    User {
+      avatar
+      id
+      nickname
+    }
+    Membership {
+      lifespan
+      price
+      id
+    }
+  }
+}

@@ -1,0 +1,9 @@
+mutation MyQuery($userId: String! @fromClaim(name: USERID), $languageId: String!) {
+  data: freetalk_updateOneUser(
+    data: {LearningLanguage: {connect: {id: $languageId}}}
+    where: {id: $userId}
+  ) {
+    age
+    id
+  }
+} 

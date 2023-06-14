@@ -1,0 +1,21 @@
+mutation UpdateOnePayment($orderNumber: String!, $paymentDate: DateTime, $paymentStatus: freetalk_PaymentStatus!, $paymentResp: String, $usageId: String @internal) {
+  data: freetalk_updateOnePayment(
+    data: {paymentStatus: $paymentStatus, paymentDate: {set: $paymentDate}, paymentResp: {set: $paymentResp}}
+    where: {orderNumber: $orderNumber}
+  ) {
+    id
+    accountId
+    usage
+    usageId @export(as: "usageId")
+    membershipPresent: _join @transform(get: "freetalk_findFirstMembership.presentDuration") {
+      freetalk_findFirstMembership(where: {id: {equals: $usageId}}) {
+        presentDuration
+      }
+    }
+    durationValue: _join @transform(get: "freetalk_findFirstDurationPackage.value") {
+      freetalk_findFirstDurationPackage(where: {id: {equals: $usageId}}) {
+        value
+      }
+    }
+  }
+} 

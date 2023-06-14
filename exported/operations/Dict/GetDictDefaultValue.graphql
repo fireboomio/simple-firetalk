@@ -1,0 +1,9 @@
+query MyQuery($code: String!) {
+  data: freetalk_findFirstDictItem(
+    where: {enabled: {equals: true}, Dict: {is: {code: {equals: $code}}}, isDefault: {equals: true}}
+  ) {
+    id
+    title
+    value
+  }
+}

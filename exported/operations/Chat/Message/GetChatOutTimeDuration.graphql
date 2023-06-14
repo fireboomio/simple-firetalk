@@ -1,0 +1,9 @@
+query GetOutTimeDuration($chatId: String!) {
+  data: freetalk_aggregateChatMessage(
+    where: {chatId: {equals: $chatId}, AND: {createdAt: {}}}
+  ) {
+    outTimeDuration: _sum @transform(get: "outTimeDuration") {
+      outTimeDuration
+    }
+  }
+}

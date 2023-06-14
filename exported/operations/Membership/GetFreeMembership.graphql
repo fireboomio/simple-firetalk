@@ -1,0 +1,20 @@
+query MyQuery($membershipId: String @internal, $accountId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstMembership(where: {price: {equals: 0}}) {
+    description
+    id @export(as: "membershipId")
+    lifespan
+    name
+    presentDuration
+    price
+    imageUrl
+    payCount: _join @transform(get: "freetalk_aggregatePayment._count.id") {
+      freetalk_aggregatePayment(
+        where: {usageId: {equals: $membershipId}, accountId: {equals: $accountId}, usage: {equals: Membership}}
+      ) {
+        _count {
+          id
+        }
+      }
+    }
+  }
+}

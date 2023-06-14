@@ -1,0 +1,7 @@
+mutation CreateOnePayment($orderAmount: Float!, $orderNumber: String!, $accountId: String! @fromClaim(name: USERID), $packageId: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $payType: String!, $sn: String, $expireAt: DateTime!) {
+  data: freetalk_createOnePayment(
+    data: {updatedAt: $updatedAt, orderNumber: $orderNumber, orderAmount: $orderAmount, Account: {connect: {id: $accountId}}, usageId: $packageId, usage: DurationPackage, payType: $payType, sn: $sn, expireAt: $expireAt}
+  ) {
+    id
+  }
+}

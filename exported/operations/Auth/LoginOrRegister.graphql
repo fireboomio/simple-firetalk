@@ -1,0 +1,18 @@
+mutation MyQuery($code: String!, $phone: String!, $age: String = "", $languageDifficulty: String, $learningLanguageId: String, $learningPurpose: String, $nickname: String, $profession: String) {
+  data: authing_loginOrRegister(
+    phone: $phone
+    code: $code
+    age: $age
+    languageDifficulty: $languageDifficulty
+    learningLanguageId: $learningLanguageId
+    learningPurpose: $learningPurpose
+    nickname: $nickname
+    profession: $profession
+  ) {
+    access_token
+    expire_in
+    id_token
+    refresh_token
+    token_type
+  }
+}

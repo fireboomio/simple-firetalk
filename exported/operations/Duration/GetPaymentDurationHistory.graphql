@@ -1,0 +1,33 @@
+query GetPaymentDurationHistory($accountId: String! @fromClaim(name: USERID), $createAtGte: DateTime!, $createAtLte: DateTime!, $usageId: String @internal, $paymentUsageId: String @internal) {
+  data: freetalk_findManyDurationHisotory(
+    where: {accountId: {equals: $accountId}, createdAt: {gte: $createAtGte}, AND: {createdAt: {lte: $createAtLte}}, usage: {equals: Payment}}
+  ) {
+    createdAt
+    usage
+    usageId @export(as: "usageId")
+    value
+    payment: _join @transform(get: "freetalk_findFirstPayment") {
+      freetalk_findFirstPayment(where: {orderNumber: {equals: $usageId}}) {
+        usageId @export(as: "paymentUsageId")
+        usage 
+        membership: _join @transform(get: "freetalk_findFirstMembership.name") {
+      	  freetalk_findFirstMembership(where: {id: {equals: $paymentUsageId}}) {
+            name
+          }
+        }
+        durationPackage: _join @transform(get: "freetalk_findFirstDurationPackage.name") {
+      	  freetalk_findFirstDurationPackage(where: {id: {equals: $paymentUsageId}}) {
+            name
+          }
+        }
+      }
+    }
+  }
+  sum: freetalk_aggregateDurationHisotory(
+    where: {accountId: {equals: $accountId}, createdAt: {gte: $createAtGte}, AND: {createdAt: {lte: $createAtLte}}, usage: {equals: Payment}}
+  ) @transform(get: "_sum.value") {
+    _sum {
+      value
+    }
+  }
+}

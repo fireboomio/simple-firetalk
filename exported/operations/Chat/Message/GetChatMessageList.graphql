@@ -1,0 +1,26 @@
+query GetChatMessageList($take: Int = 10, $skip: Int = 0, $chatId: String!) {
+  data: freetalk_findManyChatMessage(
+    skip: $skip
+    take: $take
+    where: {chatId: {equals: $chatId}}
+    orderBy: {createdAt: desc}
+  ) {
+    id
+    createdAt
+    updatedAt
+    audioUrl
+    chatId
+    content
+    costDuration
+    errorRecovery
+    role
+    nativeContent
+    audioDuration
+    createWith
+  }
+  total: freetalk_aggregateChatMessage(where: {chatId: {equals: $chatId}}) @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+}

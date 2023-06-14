@@ -1,0 +1,7 @@
+mutation CreateOneAnnouncementRecv($annoId: String!, $userId: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601)) {
+  data: freetalk_createOneAnnouncementRecv(
+    data: {Announcement: {connect: {id: $annoId}}, User: {connect: {id: $userId}}, updatedAt: $updatedAt}
+  ) {
+    id
+  }
+}

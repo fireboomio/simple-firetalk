@@ -1,0 +1,8 @@
+mutation SetChatErrorRecovery($id: String!, $errorRecovery: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601)) {
+  data: freetalk_updateOneChatMessage(
+    data: {errorRecovery: {set: $errorRecovery}, updatedAt: {set: $updatedAt}}
+    where: {id: $id}
+  ) {
+    id
+  }
+} 

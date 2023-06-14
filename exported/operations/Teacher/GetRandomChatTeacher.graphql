@@ -1,0 +1,9 @@
+query MyQuery {
+  data: freetalk_findFirstTeacher(where: {displayUsage: {equals: Random}}) {
+    avatar
+    feature
+    gender
+    id
+    name
+  }
+}

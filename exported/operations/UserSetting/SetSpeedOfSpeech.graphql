@@ -1,0 +1,8 @@
+mutation MyQuery($speed: String!, $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_updateOneUser(
+    data: {speedOfSpeech: { set:$speed}}
+    where: {id: $userId}
+  ) {
+    id
+  }
+}

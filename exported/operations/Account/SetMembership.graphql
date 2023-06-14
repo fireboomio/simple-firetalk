@@ -1,0 +1,19 @@
+mutation SetMembership($id: String!, $membershipId: String!, $membershipEndTime: DateTime!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601)) {
+  data: freetalk_updateOneAccount(
+    data: {membershipEndTime: {set: $membershipEndTime}, updatedAt: {set: $updatedAt}, Membership: {connect: {id: $membershipId}}}
+    where: {id: $id}
+  ) {
+    id
+    costDuration
+    leftDuration
+    membershipEndTime
+    createdAt
+    updatedAt
+    deletedAt
+    User {
+      avatar
+      id
+      nickname
+    }
+  }
+}

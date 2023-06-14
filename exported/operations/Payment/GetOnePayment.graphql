@@ -1,0 +1,17 @@
+query MyQuery($id: String!) {
+  data: freetalk_findUniquePayment(where: {id: $id}) {
+    accountId
+    createdAt
+    id
+    usage
+    usageId
+    orderDate
+    orderAmount
+    orderNumber
+    paymentDate
+    paymentResp
+    paymentStatus
+    updatedAt
+    payType
+  }
+}

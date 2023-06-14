@@ -1,0 +1,7 @@
+mutation CreateOneUserScene($name: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $userId: String @fromClaim(name: USERID), $categoryId: String) {
+  data: freetalk_createOneScene(
+    data: {name: $name, updatedAt: $updatedAt, userId: $userId, SceneCategory: {connect: {id: $categoryId}}}
+  ) {
+    id
+  }
+}

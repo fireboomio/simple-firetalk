@@ -1,0 +1,6 @@
+query GETCDKEYyCode($code: String!) {
+  data: freetalk_findFirstCDKEY(where: {code: {equals: $code}}) {
+    redeemed
+    id
+  }
+}

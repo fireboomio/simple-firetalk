@@ -1,0 +1,8 @@
+query MyQuery($phone: String!) @internalOperation {
+  data: freetalk_findFirstUser(where: {phone: {equals: $phone}}) {
+    id
+    accountId: Account @transform(get: "id") {
+      id
+    }
+  }
+}

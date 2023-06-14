@@ -1,0 +1,23 @@
+query MyQuery($userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_findFirstChat(
+    orderBy: {updatedAt: desc}
+    where: {User: {is: {id: {equals: $userId}}}, Scene: {is: {SceneCategory: {is: {usage: {equals: System}}}}}}
+  ) {
+    id
+    scene: Scene {
+      id
+      name
+      categoryId
+    }
+    teacher: Teacher {
+      age
+      avatar
+      feature
+      gender
+      name
+      id
+      updatedAt
+      createdAt
+    }
+  }
+}

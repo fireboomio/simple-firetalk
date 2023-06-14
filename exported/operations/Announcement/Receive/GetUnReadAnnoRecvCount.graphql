@@ -1,0 +1,9 @@
+query GetUnReadAnnoRecvCount($startTime: DateTime! @injectCurrentDateTime(format: ISO8601), $userId: String! @fromClaim(name: USERID)) {
+  data: freetalk_aggregateAnnouncementRecv(
+    where: {isRead: {equals: false}, Announcement: {is: {startTime: {lte: $startTime}, isSend: {equals: true}}}, User: {is: {id: {equals: $userId}}}}
+  ) {
+    count: _count @transform(get: "id") {
+      id
+    }
+  }
+}

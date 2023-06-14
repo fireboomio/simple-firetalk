@@ -1,0 +1,8 @@
+mutation MyQuery($id: String! @fromClaim(name: USERID), $age: String, $avatar: String, $difficulty: String, $enabled: Boolean, $learningPurpose: String, $nativeLanguage: String, $nickname: String, $phone: String, $profession: String, $speedOfSpeech: String, $updatedAt: DateTime @injectCurrentDateTime(format: ISO8601)) {
+  freetalk_updateOneUser(
+    data: {age: {set: $age}, avatar: {set: $avatar}, difficulty: {set: $difficulty}, enabled: {set: $enabled}, learningPurpose: {set: $learningPurpose}, nativeLanguage: {set: $nativeLanguage}, nickname: {set: $nickname}, phone: {set: $phone}, profession: {set: $profession}, speedOfSpeech: {set: $speedOfSpeech}, updatedAt: {set: $updatedAt}}
+    where: {id: $id}
+  ) {
+    id
+  }
+} 

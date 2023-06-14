@@ -1,0 +1,5 @@
+query MyQuery {
+  data: freetalk_findFirstSceneCategory(where: {usage: {equals: User}}) {
+    id
+  }
+}

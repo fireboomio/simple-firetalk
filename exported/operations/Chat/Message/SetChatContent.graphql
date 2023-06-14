@@ -1,0 +1,8 @@
+mutation SetChatContent($id: String!, $content: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601)) {
+  data: freetalk_updateOneChatMessage(
+    data: {content: {set: $content}, updatedAt: {set: $updatedAt}}
+    where: {id: $id}
+  ) {
+    id
+  }
+} 

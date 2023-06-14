@@ -1,0 +1,9 @@
+query GetPaymentCountByMembership($membershipId: String!, $accountId: String! @fromClaim(name: USERID)) {
+  data: freetalk_aggregatePayment(
+    where: {usageId: {equals: $membershipId}, usage: {equals: Membership}, accountId: {equals: $accountId}}
+  ) {
+    count: _count @transform(get: "id") {
+      id
+    }
+  }
+}

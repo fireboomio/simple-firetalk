@@ -1,0 +1,8 @@
+mutation CostAccountDuration($id: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $duration: Float!) {
+  data: freetalk_updateOneAccount(
+    data: {updatedAt: {set: $updatedAt}, leftDuration: {decrement: $duration}, costDuration: {increment: $duration}}
+    where: {id: $id}
+  ) {
+    id
+  }
+}

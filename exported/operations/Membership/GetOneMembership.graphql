@@ -1,0 +1,30 @@
+query MyQuery($id: String!, $currentTime: DateTime! @injectCurrentDateTime(format: ISO8601), $userId: String @fromClaim(name: USERID)) {
+  data: freetalk_findFirstMembership(where: {id: {equals: $id}}) {
+    price
+    purchaseLimit
+    presentDuration
+    name
+    lifespan
+    description
+    imageUrl
+    discount: _join @transform(get: "freetalk_findFirstDiscount") {
+      freetalk_findFirstDiscount(
+        where: {usageId: {equals: $id}, usage: {equals: Membership}}
+      ) {
+        description
+        name
+        value
+        expireAt
+      }
+    }
+    reduction: _join @transform(get: "freetalk_findFirstAccount.Membership.price") {
+      freetalk_findFirstAccount(
+        where: {id: {equals: $userId}, membershipEndTime:{gte: $currentTime}}
+      ) {
+        Membership{
+          price
+        }
+      }
+    }
+  }
+} 

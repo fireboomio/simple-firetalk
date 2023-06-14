@@ -1,0 +1,19 @@
+mutation UpdateOneAnnouncement($id: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: UnixDate), $title: String, $abstract: String, $content: String, $annoType: freetalk_AnnoType, $startTime: DateTime @injectCurrentDateTime(format: ISO8601), $isSend: Boolean, $annoScope: freetalk_AnnoScope = ALL) {
+  data: freetalk_updateOneAnnouncement(
+    data: {updatedAt: {set: $updatedAt}, title: {set: $title}, abstract: {set: $abstract}, content: {set: $content}, annoType: $annoType, startTime: {set: $startTime}, isSend: {set: $isSend}, annoScope: $annoScope}
+    where: {id: $id}
+  ) {
+    createdAt
+    updatedAt
+    deletedAt
+    title
+    abstract
+    content
+    annoType
+    startTime
+    isSend
+    userId
+    id
+    annoScope
+  }
+}

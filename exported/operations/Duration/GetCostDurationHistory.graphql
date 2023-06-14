@@ -1,0 +1,18 @@
+query GetCostDurationHistory($accountId: String! @fromClaim(name: USERID), $createAtGte: DateTime!, $createAtLte: DateTime!) {
+  data: freetalk_groupByDurationHisotory(
+    by: createdAt
+    where: {accountId: {equals: $accountId}, createdAt: {gte: $createAtGte}, AND: {createdAt: {lte: $createAtLte}, usage: {equals: ChatMessage}}}
+  ) {
+    createdAt
+    value: _sum @transform(get: "value") {
+      value
+    }
+  }
+  sum: freetalk_aggregateDurationHisotory(
+    where: {accountId: {equals: $accountId}, createdAt: {gte: $createAtGte}, AND: {createdAt: {lte: $createAtLte}}, usage: {equals: ChatMessage}}
+  ) @transform(get: "_sum.value") {
+    _sum {
+      value
+    }
+  }
+}

@@ -1,0 +1,8 @@
+mutation FetchAccountDuration($id: String!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $duration: Float!) {
+  data: freetalk_updateOneAccount(
+    data: {updatedAt: {set: $updatedAt}, leftDuration: {increment: $duration}}
+    where: {id: $id}
+  ) {
+    id
+  }
+}

@@ -1,0 +1,11 @@
+query GetManyAnnoConfByType($annoType: freetalk_AnnoType!) {
+  data: freetalk_findManyAnnouncementConf(where: {annoType: {equals: $annoType}}) {
+    userId
+    title
+    startTime
+    content
+    annoType
+    annoScope
+    abstract
+  }
+} 

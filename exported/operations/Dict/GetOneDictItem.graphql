@@ -1,0 +1,10 @@
+query GetOneDictItem($title: String!, $code: String!) {
+  data: freetalk_findFirstDictItem(
+    where: {title: {equals: $title}, enabled: {equals: true}, Dict: {is: {code: {equals: $code}}}}
+  ) {
+    value
+    title
+    id
+    description
+  }
+}

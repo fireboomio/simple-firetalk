@@ -1,0 +1,7 @@
+mutation CreateCDKEYDurationHistory($accountId: String! @fromClaim(name: USERID), $value: Float!, $updatedAt: DateTime! @injectCurrentDateTime(format: ISO8601), $CKDKEYId: String!) {
+  data: freetalk_createOneDurationHisotory(
+    data: {Account: {connect: {id: $accountId}}, updatedAt: $updatedAt, value: $value, usage: CDKEY, usageId: $CKDKEYId}
+  ) {
+    id
+  }
+}

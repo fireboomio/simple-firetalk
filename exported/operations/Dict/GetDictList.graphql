@@ -1,0 +1,21 @@
+query GetDictList($take: Int = 10, $skip: Int = 0, $orderBy: [freetalk_DictOrderByWithRelationInput], $query: freetalk_DictWhereInput) {
+  data: freetalk_findManyDict(
+    skip: $skip
+    take: $take
+  orderBy: $orderBy
+    where: {AND: $query}) {
+    
+    id
+    code
+    name
+    description
+    type
+    createdAt
+    updatedAt
+  }
+  total: freetalk_aggregateDict(where: {AND: $query}) @transform(get: "_count.id") {
+    _count {
+      id
+    }
+  }
+}

@@ -1,0 +1,11 @@
+subscription GptSubscription($chatCtxLimit: Int = 10, $chatId: String, $usage: String!, $message: String, $helper: String, $userId: String! @fromClaim(name: USERID), $helperArgs: String) {
+  data: gpt_chat_subscription(
+    chatCtxLimit: $chatCtxLimit
+    chatId: $chatId
+    message: $message
+    helper: $helper
+    usage: $usage
+    userId: $userId
+    helperArgs: $helperArgs
+  )
+}

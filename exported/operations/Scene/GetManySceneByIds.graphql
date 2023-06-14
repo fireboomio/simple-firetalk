@@ -1,0 +1,10 @@
+query MyQuery($categoryIds: [String]!) {
+  data: freetalk_findManyScene(
+    where: {SceneCategory: {is: {id: {in: $categoryIds}, usage: {equals: Required}}}}
+  ) {
+    id
+    name
+    suffixIcon
+    prefixIcon
+  }
+}
